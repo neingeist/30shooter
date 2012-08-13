@@ -1,0 +1,33 @@
+<html>
+
+<head>
+<script type="text/javascript">
+
+  cur_step = 10;
+  t = -Math.PI/2;
+
+  function timed() {
+    var el = document.getElementById("herzle");
+
+    el.style.position = "absolute";
+    el.style.left = ( Math.cos(t)              + 1)/2 * window.innerWidth;
+    el.style.top  = ((Math.sin(t)*Math.cos(t)) + 1)/2 * window.innerHeight;
+
+    el.style.fontSize = (1.0 - Math.abs(Math.cos(t))) * 300;
+
+    t = t + 0.1;
+    if (t > 3*Math.PI/2) {
+      t = -Math.PI/2;
+    }
+
+    setTimeout("timed()", 100);
+  }
+
+</script>
+</head>
+
+<body onload="timed()" >
+   <span id="herzle" style="font-size: 20pt; color: #ff00ff; font-family: helvetica, arial;">&lt;3</span>
+</body>
+
+</html>
