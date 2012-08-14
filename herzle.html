@@ -3,7 +3,8 @@
 <head>
 <script type="text/javascript">
 
-  player_pos = 0;
+  player_pos = [300, 0];
+  enemy_pos = [300, 0];
   pewpew = 0;
 
   document.onkeydown = onKeyDown;
@@ -14,12 +15,10 @@
     var player = document.getElementById("player");
 
     if (e.keyCode == '37') { // left
-      player_pos -= 10;
-      player.style.left = player_pos;
+      player_pos[0] -= 10;
     }
     if (e.keyCode == '39') { // right
-      player_pos += 10;
-      player.style.left = player_pos;
+      player_pos[0] += 10;
     }
     if (e.keyCode == '32') { // space = fire
       shoot(player_pos);
@@ -28,7 +27,7 @@
 
   shoots = [];
   function shoot(player_pos) {
-    shoots[shoots.length] = [player_pos, 500];
+    shoots[shoots.length] = [player_pos[0], 500];
     // pewpew = 5;
   }
 
@@ -58,7 +57,7 @@ function gameLoop() {
     if (shoots[i]) {
       var shootdiv = document.getElementById('shoot' + i);
       if (shootdiv && isCollided(shootdiv, enemydiv)) {
-        pewpew = 10;
+        pewpew = 5;
       }
     }
   }
@@ -96,10 +95,15 @@ function gameLoop() {
     pewpewdiv.innerHTML = "";
   }
 
+  // render player
+  var playerdiv = document.getElementById("player");
+  playerdiv.style.left = player_pos[0];
+  // FIXME playerdiv.style.top = player_pos[1];
+
   // render enemy
   var enemydiv = document.getElementById("enemy");
-  enemydiv.style.left = 300;
-  enemydiv.style.top = 10;
+  enemydiv.style.left = enemy_pos[0];
+  enemydiv.style.top = enemy_pos[1];
 
   // animate shoots
   for(var i = 0; i < shoots.length; i++) {
