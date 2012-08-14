@@ -29,10 +29,40 @@
   shoots = [];
   function shoot(player_pos) {
     shoots[shoots.length] = [player_pos, 500];
-    pewpew = 5;
+    // pewpew = 5;
   }
 
+function isCollided(a, b) {
+  var a_left = parseInt(a.style.left);
+  var a_right = a_left + a.offsetWidth;
+  var a_top = parseInt(a.style.top);
+  var a_bottom = a_top + a.offsetHeight;
+
+  var b_left = parseInt(b.style.left);
+  var b_right = b_left + b.offsetWidth;
+  var b_top = parseInt(b.style.top);
+  var b_bottom = b_top + b.offsetHeight;
+
+  return !(
+    (a_left > b_right) ||
+    (a_right < b_left) ||
+    (a_top > b_bottom) ||
+    (a_bottom < b_top)
+  );
+}
+
 function gameLoop() {
+  // detect collision
+  var enemydiv = document.getElementById("enemy");
+  for(var i = 0; i < shoots.length; i++) {
+    if (shoots[i]) {
+      var shootdiv = document.getElementById('shoot' + i);
+      if (shootdiv && isCollided(shootdiv, enemydiv)) {
+        pewpew = 10;
+      }
+    }
+  }
+
   // render shoots
   for(var i = 0; i < shoots.length; i++) {
     if (shoots[i]) {
@@ -66,6 +96,11 @@ function gameLoop() {
     pewpewdiv.innerHTML = "";
   }
 
+  // render enemy
+  var enemydiv = document.getElementById("enemy");
+  enemydiv.style.left = 300;
+  enemydiv.style.top = 10;
+
   // animate shoots
   for(var i = 0; i < shoots.length; i++) {
     if (shoots[i]) {
@@ -88,15 +123,22 @@ function gameLoop() {
 
 <style type="text/css">
   * {
-    font-size: 20pt; 
+    font-size: 2em; 
     color: #ff00ff; 
     font-family: helvetica, arial;
   }
   #player {
     position: absolute;
     bottom: 10%;
-    -webkit-transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
+    /* -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg); */
+  }
+  #enemy {
+    position: absolute;
+    top: 10%;
+    /* -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg); */
+    border-style: solid; border-width: 1px;
   }
   #pewpew {
     position:absolute;
@@ -105,13 +147,14 @@ function gameLoop() {
   }
   div.shoot {
     position:absolute;
+    border-style: solid; border-width: 1px;
   }
 </style>
 </head>
 
 <body onload="gameLoop();">
-  <span id="herzle">&lt;3</span>
-  <span id="player">&lt;</span>
+  <div id="enemy">3</div>
+  <div id="player">&lt;</div>
   <div id="pewpew"></div>
 </body>
 
