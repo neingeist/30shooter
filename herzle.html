@@ -20,14 +20,56 @@
       t = -Math.PI/2;
     }
 
-    setTimeout("timed()", 100);
+    // setTimeout("timed()", 100);
+  }
+
+  player_pos = 0;
+
+  document.onkeydown = onKeyDown;
+
+  function onKeyDown(e) {
+    e = e || window.event;
+
+    var player = document.getElementById("player");
+
+    if (e.keyCode == '37') { // left
+      player_pos -= 10;
+      player.style.left = player_pos;
+    }
+    if (e.keyCode == '39') { // right
+      player_pos += 10;
+      player.style.left = player_pos;
+    }
+    if (e.keyCode == '32') { // space = fire
+      var pewpew = document.getElementById("pewpew");
+      pewpew.innerHTML = "pew! pew!";
+    }
   }
 
 </script>
+
+<style type="text/css">
+  * {
+    font-size: 20pt; 
+    color: #ff00ff; 
+    font-family: helvetica, arial;
+  }
+  #player {
+    position: absolute;
+    bottom: 10%;
+  }
+  #pewpew {
+    position:absolute;
+    top: 10%;
+    right: 10%;
+  }
+</style>
 </head>
 
-<body onload="timed()" >
-   <span id="herzle" style="font-size: 20pt; color: #ff00ff; font-family: helvetica, arial;">&lt;3</span>
+<body>
+  <span id="herzle">&lt;3</span>
+  <span id="player">&lt;</span>
+  <span id="pewpew"></span>
 </body>
 
 </html>
