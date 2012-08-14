@@ -108,7 +108,7 @@ function gameLoop() {
   // animate shoots
   for(var i = 0; i < shoots.length; i++) {
     if (shoots[i]) {
-      shoots[i][1] -= 10;
+      shoots[i][1] -= 20;
       if (shoots[i][1] < 0) {
         delete(shoots[i]);
       }
@@ -119,6 +119,14 @@ function gameLoop() {
   if (pewpew > 0) {
     pewpew -= 1;
   }
+
+  // animate enemy
+  var min = -50;
+  var max = +50;
+  var off = min + parseInt(Math.random() * (max-min));
+  enemy_pos[0] += off;
+  if (enemy_pos[0] < 0) enemy_pos[0] = 0;
+  if (enemy_pos[0] > 600) enemy_pos[0] = 600;
 
   setTimeout("gameLoop()", 100);
 }
