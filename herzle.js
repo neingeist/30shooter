@@ -27,15 +27,15 @@ function shoot(player_pos) {
 }
 
 function isCollided(a, b) {
-  var a_left = parseInt(a.style.left);
-  var a_right = a_left + a.offsetWidth;
-  var a_top = parseInt(a.style.top);
-  var a_bottom = a_top + a.offsetHeight;
+  var a_left   = a.getClientRects()[0].left;
+  var a_right  = a.getClientRects()[0].right;
+  var a_top    = a.getClientRects()[0].top;
+  var a_bottom = a.getClientRects()[0].bottom;
 
-  var b_left = parseInt(b.style.left);
-  var b_right = b_left + b.offsetWidth;
-  var b_top = parseInt(b.style.top);
-  var b_bottom = b_top + b.offsetHeight;
+  var b_left   = b.getClientRects()[0].left;
+  var b_right  = b.getClientRects()[0].right;
+  var b_top    = b.getClientRects()[0].top;
+  var b_bottom = b.getClientRects()[0].bottom;
 
   return !(
     (a_left > b_right) ||
