@@ -1,3 +1,5 @@
+debug = true;
+
 player_pos = [300, 0];
 enemy_pos = [300, 0];
 pewpew = 0;
@@ -7,8 +9,6 @@ document.onkeydown = onKeyDown;
 function onKeyDown(e) {
   e = e || window.event;
 
-  var player = document.getElementById("player");
-
   if (e.keyCode == '37') { // left
     player_pos[0] -= 10;
   }
@@ -16,13 +16,16 @@ function onKeyDown(e) {
     player_pos[0] += 10;
   }
   if (e.keyCode == '32') { // space = fire
-    shoot(player_pos);
+    var playerdiv = document.getElementById("player");
+    var pos = playerdiv.getClientRects()[0].left
+              + playerdiv.getClientRects()[0].width / 2;
+    shoot(pos);
   }
 }
 
 shoots = [];
-function shoot(player_pos) {
-  shoots[shoots.length] = [player_pos[0], 500];
+function shoot(pos) {
+  shoots[shoots.length] = [pos, 500];
   // pewpew = 5;
 }
 
@@ -45,7 +48,7 @@ function isCollided(a, b) {
   );
 }
 
-function gameLoop() {
+function detectCollisions() {
   // detect collision
   var enemydiv = document.getElementById("enemy");
   for(var i = 0; i < shoots.length; i++) {
@@ -56,7 +59,9 @@ function gameLoop() {
       }
     }
   }
+}
 
+function render() {
   // render shoots
   for(var i = 0; i < shoots.length; i++) {
     if (shoots[i]) {
@@ -66,7 +71,7 @@ function gameLoop() {
         shootdiv = document.createElement('div');
         shootdiv.setAttribute('id', 'shoot' + i);
         shootdiv.setAttribute('class', 'shoot');
-        shootdiv.innerHTML = '|';
+        shootdiv.innerHTML = 'i';
 
         var body = document.getElementsByTagName('body')[0];
         body.appendChild(shootdiv);
@@ -74,6 +79,8 @@ function gameLoop() {
 
       shootdiv.style.left = shoots[i][0];
       shootdiv.style.top  = shoots[i][1];
+      if (debug)
+        shootdiv.style.border = "1px solid";
     } else {
       if (deldiv = document.getElementById('shoot' + i)) {
         var body = document.getElementsByTagName('body')[0];
@@ -94,12 +101,18 @@ function gameLoop() {
   var playerdiv = document.getElementById("player");
   playerdiv.style.left = player_pos[0];
   // FIXME playerdiv.style.top = player_pos[1];
+  if (debug)
+    playerdiv.style.border = "1px solid";
 
   // render enemy
   var enemydiv = document.getElementById("enemy");
   enemydiv.style.left = enemy_pos[0];
   enemydiv.style.top = enemy_pos[1];
+  if (debug)
+    enemydiv.style.border = "1px solid";
+}
 
+function animate() {
   // animate shoots
   for(var i = 0; i < shoots.length; i++) {
     if (shoots[i]) {
@@ -122,6 +135,12 @@ function gameLoop() {
   enemy_pos[0] += off;
   if (enemy_pos[0] < 0) enemy_pos[0] = 0;
   if (enemy_pos[0] > 600) enemy_pos[0] = 600;
+}
+
+function gameLoop() {
+  detectCollisions();
+  render();
+  animate();
 
   setTimeout("gameLoop()", 100);
 }
