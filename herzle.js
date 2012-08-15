@@ -1,6 +1,6 @@
 debug = true;
 
-player_pos = [300, 0];
+player_pos = [300, 500];
 enemy_pos = [300, 0];
 pewpew = 0;
 
@@ -16,16 +16,13 @@ function onKeyDown(e) {
     player_pos[0] += 10;
   }
   if (e.keyCode == '32') { // space = fire
-    var playerdiv = document.getElementById("player");
-    var pos = playerdiv.getClientRects()[0].left
-              + playerdiv.getClientRects()[0].width / 2;
-    shoot(pos);
+    shoot(player_pos);
   }
 }
 
 shoots = [];
 function shoot(pos) {
-  shoots[shoots.length] = [pos, 500];
+  shoots[shoots.length] = [pos[0], pos[1]];
   // pewpew = 5;
 }
 
