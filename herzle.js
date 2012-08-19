@@ -1,4 +1,4 @@
-debug = false;
+debug = true;
 
 player_pos = [0.5 * window.innerWidth, 0.9 * window.innerHeight];
 enemy_pos  = [0.5 * window.innerWidth, 0.1 * window.innerHeight];
@@ -197,7 +197,7 @@ function animate() {
   // stay inside!
   if (new_enemy_pos[0] < 0) new_enemy_pos[0] = 0;
   if (new_enemy_pos[0] > window.innerWidth) new_enemy_pos[0] = window.innerWidth;
-  if (new_enemy_pos[1] < 0.05 * window.innerHeight) new_enemy_pos[1] = 0.05 * window.innerHeight;
+  if (new_enemy_pos[1] < 0.1 * window.innerHeight) new_enemy_pos[1] = 0.1 * window.innerHeight;
   if (new_enemy_pos[1] > 0.5 * window.innerHeight) new_enemy_pos[0] = 0.5 * window.innerHeight;
 
   // slowly move to desired position
@@ -214,5 +214,16 @@ function gameLoop() {
 }
 
 function init() {
+  if (debug) {
+    borderdiv = document.createElement('div');
+    borderdiv.style.position = "absolute";
+    borderdiv.style.left = "10%";
+    borderdiv.style.width = "80%";
+    borderdiv.style.top = "10%";
+    borderdiv.style.height = "80%";
+    borderdiv.style.border = "1px solid";
+    var body = document.getElementsByTagName('body')[0];
+    body.appendChild(borderdiv);
+  }
   gameLoop();
 }
