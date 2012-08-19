@@ -165,8 +165,8 @@ function animate() {
 
   // animate enemy
   // every now and then change direction
-  var min = -50;
-  var max = +50;
+  var min = -75;
+  var max = +75;
   if (a % 15 == 0) {
     var off = min + parseInt(Math.random() * (max-min));
     new_enemy_pos[0] += off;
