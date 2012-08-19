@@ -134,6 +134,10 @@ function lerp(t, a, b) {
   return (a + t*(b-a));
 }
 
+function dist(a, b) {
+  return (b[1] - a[1]) / (b[0] - a[0]);
+}
+
 var a = 0;
 
 function animate() {
@@ -164,11 +168,30 @@ function animate() {
     new_enemy_pos[0] += off;
     var off = min + parseInt(Math.random() * (max-min));
     new_enemy_pos[1] += off;
-    if (new_enemy_pos[0] < 0) new_enemy_pos[0] = 0;
-    if (new_enemy_pos[0] > window.innerWidth) new_enemy_pos[0] = window.innerWidth;
-    if (new_enemy_pos[1] < 0.05 * window.innerHeight) new_enemy_pos[1] = 0.05 * window.innerHeight;
-    if (new_enemy_pos[1] > 0.5 * window.innerHeight) new_enemy_pos[0] = 0.5 * window.innerHeight;
   }
+  // avoid shoots
+  for(var i = 0; i < shoots.length; i++) {
+    if (shoots[i]) {
+      if (dist(enemy_pos, shoots[i]) < 100) {
+        new_enemy_pos[0] = lerp(-0.50, enemy_pos[0], shoots[i][0]);
+        new_enemy_pos[1] = lerp(-0.35, enemy_pos[1], shoots[i][1]);
+      }
+    }
+  }
+  // avoid corners
+  if (new_enemy_pos[0] < 0.05 * window.innerWidth  || new_enemy_pos[0] > 0.95 * window.innerWidth) {
+    new_enemy_pos[0] = lerp(0.2, enemy_pos[0], 0.5 * window.innerWidth);
+  }
+  if (new_enemy_pos[1] < 0.05 * window.innerHeight || new_enemy_pos[1] > 0.95 * window.innerHeight) {
+    new_enemy_pos[1] = lerp(0.2, enemy_pos[1], 0.25 * window.innerHeight);
+  }
+
+  // stay inside!
+  if (new_enemy_pos[0] < 0) new_enemy_pos[0] = 0;
+  if (new_enemy_pos[0] > window.innerWidth) new_enemy_pos[0] = window.innerWidth;
+  if (new_enemy_pos[1] < 0.05 * window.innerHeight) new_enemy_pos[1] = 0.05 * window.innerHeight;
+  if (new_enemy_pos[1] > 0.5 * window.innerHeight) new_enemy_pos[0] = 0.5 * window.innerHeight;
+
   // slowly move to desired position
   enemy_pos[0] = lerp(0.15, enemy_pos[0], new_enemy_pos[0]);
   enemy_pos[1] = lerp(0.15, enemy_pos[1], new_enemy_pos[1]);
