@@ -5,6 +5,7 @@ enemy_pos  = [0.5 * window.innerWidth, 0.1 * window.innerHeight];
 new_enemy_pos = [enemy_pos[0], enemy_pos[1]];
 pewpew = 0;
 herzles = 0;
+lastshoot = 0;
 
 document.onkeydown = onKeyDown;
 
@@ -18,12 +19,15 @@ function onKeyDown(e) {
     player_pos[0] += 10;
   }
   if (e.keyCode == '32') { // space = fire
-    shoot(player_pos);
+    if ((new Date()).getTime() - lastshoot > 300) {
+      shoot(player_pos);
+    }
   }
 }
 
 shoots = [];
 function shoot(pos) {
+  lastshoot = (new Date()).getTime();
   shoots[shoots.length] = [pos[0], pos[1], false];
   // pewpew = 5;
 }
