@@ -170,20 +170,24 @@ function animate() {
     new_enemy_pos[1] += off;
   }
   // avoid shoots
+  var avoiding_shoots = false;
   for(var i = 0; i < shoots.length; i++) {
     if (shoots[i]) {
       if (dist(enemy_pos, shoots[i]) < 100) {
+        avoiding_shoots = true;
         new_enemy_pos[0] = lerp(-0.50, enemy_pos[0], shoots[i][0]);
         new_enemy_pos[1] = lerp(-0.35, enemy_pos[1], shoots[i][1]);
       }
     }
   }
   // avoid corners
-  if (new_enemy_pos[0] < 0.05 * window.innerWidth  || new_enemy_pos[0] > 0.95 * window.innerWidth) {
-    new_enemy_pos[0] = lerp(0.2, enemy_pos[0], 0.5 * window.innerWidth);
-  }
-  if (new_enemy_pos[1] < 0.05 * window.innerHeight || new_enemy_pos[1] > 0.95 * window.innerHeight) {
-    new_enemy_pos[1] = lerp(0.2, enemy_pos[1], 0.25 * window.innerHeight);
+  if (!avoiding_shoots) {
+    if (new_enemy_pos[0] < 0.1 * window.innerWidth  || new_enemy_pos[0] > 0.9 * window.innerWidth) {
+      new_enemy_pos[0] = lerp(0.2, enemy_pos[0], 0.5 * window.innerWidth);
+    }
+    if (new_enemy_pos[1] < 0.1 * window.innerHeight || new_enemy_pos[1] > 0.5 * window.innerHeight) {
+      new_enemy_pos[1] = lerp(0.2, enemy_pos[1], 0.25 * window.innerHeight);
+    }
   }
 
   // stay inside!
