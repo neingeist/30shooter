@@ -1,7 +1,7 @@
 debug = true;
 
-player_pos = [300, 500];
-enemy_pos = [300, 0];
+player_pos = [0.5 * window.innerWidth, 0.9 * window.innerHeight];
+enemy_pos  = [0.5 * window.innerWidth, 0.1 * window.innerHeight];
 pewpew = 0;
 
 document.onkeydown = onKeyDown;
@@ -97,16 +97,19 @@ function render() {
 
   // render player
   var playerdiv = document.getElementById("player");
-  playerdiv.style.left = (player_pos[0] 
-                         - Math.round(playerdiv.getClientRects()[0].width/2)) + 'px';
-  // FIXME playerdiv.style.top = player_pos[1];
+  playerdiv.style.left = (player_pos[0]
+                          - Math.round(playerdiv.getClientRects()[0].width/2)) + 'px';
+  playerdiv.style.top = (player_pos[1]
+                         - Math.round(playerdiv.getClientRects()[0].height/2)) + 'px';
   if (debug)
     playerdiv.style.border = "1px solid";
 
   // render enemy
   var enemydiv = document.getElementById("enemy");
-  enemydiv.style.left = enemy_pos[0];
-  enemydiv.style.top = enemy_pos[1];
+  enemydiv.style.left = (enemy_pos[0]
+                         - Math.round(enemydiv.getClientRects()[0].width/2)) + 'px';
+  enemydiv.style.top = (enemy_pos[1]
+                        - Math.round(enemydiv.getClientRects()[0].height/2)) + 'px';
   if (debug)
     enemydiv.style.border = "1px solid";
 }
@@ -133,7 +136,7 @@ function animate() {
   var off = min + parseInt(Math.random() * (max-min));
   enemy_pos[0] += off;
   if (enemy_pos[0] < 0) enemy_pos[0] = 0;
-  if (enemy_pos[0] > 600) enemy_pos[0] = 600;
+  if (enemy_pos[0] > window.innerWidth) enemy_pos[0] = window.innerWidth;
 }
 
 function gameLoop() {
@@ -142,4 +145,8 @@ function gameLoop() {
   animate();
 
   setTimeout("gameLoop()", 100);
+}
+
+function init() {
+  gameLoop();
 }
