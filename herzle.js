@@ -74,7 +74,8 @@ function render() {
         body.appendChild(shootdiv);
       }
 
-      shootdiv.style.left = shoots[i][0];
+      shootdiv.style.left = (shoots[i][0]
+                            - Math.round(shootdiv.getClientRects()[0].width/2)) + 'px';
       shootdiv.style.top  = shoots[i][1];
       if (debug)
         shootdiv.style.border = "1px solid";
@@ -96,7 +97,8 @@ function render() {
 
   // render player
   var playerdiv = document.getElementById("player");
-  playerdiv.style.left = player_pos[0];
+  playerdiv.style.left = (player_pos[0] 
+                         - Math.round(playerdiv.getClientRects()[0].width/2)) + 'px';
   // FIXME playerdiv.style.top = player_pos[1];
   if (debug)
     playerdiv.style.border = "1px solid";
