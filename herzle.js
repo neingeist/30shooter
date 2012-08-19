@@ -2,6 +2,7 @@ debug = true;
 
 player_pos = [0.5 * window.innerWidth, 0.9 * window.innerHeight];
 enemy_pos  = [0.5 * window.innerWidth, 0.1 * window.innerHeight];
+new_enemy_pos = [enemy_pos[0], enemy_pos[1]];
 pewpew = 0;
 
 document.onkeydown = onKeyDown;
@@ -114,7 +115,16 @@ function render() {
     enemydiv.style.border = "1px solid";
 }
 
+function lerp(t, a, b) {
+  return (a + t*(b-a));
+}
+
+var a = 0;
+
 function animate() {
+  // inc loop counter
+  a++;
+
   // animate shoots
   for(var i = 0; i < shoots.length; i++) {
     if (shoots[i]) {
@@ -131,12 +141,22 @@ function animate() {
   }
 
   // animate enemy
+  // every now and then change direction
   var min = -50;
   var max = +50;
-  var off = min + parseInt(Math.random() * (max-min));
-  enemy_pos[0] += off;
-  if (enemy_pos[0] < 0) enemy_pos[0] = 0;
-  if (enemy_pos[0] > window.innerWidth) enemy_pos[0] = window.innerWidth;
+  if (a % 15 == 0) {
+    var off = min + parseInt(Math.random() * (max-min));
+    new_enemy_pos[0] += off;
+    var off = min + parseInt(Math.random() * (max-min));
+    new_enemy_pos[1] += off;
+    if (new_enemy_pos[0] < 0) new_enemy_pos[0] = 0;
+    if (new_enemy_pos[0] > window.innerWidth) new_enemy_pos[0] = window.innerWidth;
+    if (new_enemy_pos[1] < 0.05 * window.innerHeight) new_enemy_pos[1] = 0.05 * window.innerHeight;
+    if (new_enemy_pos[1] > 0.5 * window.innerHeight) new_enemy_pos[0] = 0.5 * window.innerHeight;
+  }
+  // slowly move to desired position
+  enemy_pos[0] = lerp(0.15, enemy_pos[0], new_enemy_pos[0]);
+  enemy_pos[1] = lerp(0.15, enemy_pos[1], new_enemy_pos[1]);
 }
 
 function gameLoop() {
