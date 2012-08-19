@@ -4,6 +4,7 @@ player_pos = [0.5 * window.innerWidth, 0.9 * window.innerHeight];
 enemy_pos  = [0.5 * window.innerWidth, 0.1 * window.innerHeight];
 new_enemy_pos = [enemy_pos[0], enemy_pos[1]];
 pewpew = 0;
+herzles = 0;
 
 document.onkeydown = onKeyDown;
 
@@ -23,7 +24,7 @@ function onKeyDown(e) {
 
 shoots = [];
 function shoot(pos) {
-  shoots[shoots.length] = [pos[0], pos[1]];
+  shoots[shoots.length] = [pos[0], pos[1], false];
   // pewpew = 5;
 }
 
@@ -54,6 +55,10 @@ function detectCollisions() {
       var shootdiv = document.getElementById('shoot' + i);
       if (shootdiv && isCollided(shootdiv, enemydiv)) {
         pewpew = 5;
+        if (!shoots[i][2]) {
+          herzles++;
+          shoots[i][2] = true; // hit once
+        }
       }
     }
   }
@@ -94,6 +99,12 @@ function render() {
     pewpewdiv.innerHTML = "pew! pew!";
   } else {
     pewpewdiv.innerHTML = "";
+  }
+
+  // herzles
+  var herzlesdiv = document.getElementById("herzles");
+  if (herzles > 0) {
+    herzlesdiv.innerHTML = herzles + " &lt;3";
   }
 
   // render player
