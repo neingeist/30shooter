@@ -108,7 +108,11 @@ function render() {
   // herzles
   var herzlesdiv = document.getElementById("herzles");
   if (herzles > 0) {
-    herzlesdiv.innerHTML = herzles + " &lt;3";
+    if (pewpew > 0) {
+      herzlesdiv.innerHTML = herzles + " &lt;3";
+    } else {
+      herzlesdiv.innerHTML = "";
+    }
   }
 
   // render player
