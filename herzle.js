@@ -1,4 +1,4 @@
-debug = true;
+debug = false;
 
 player_pos = [0.5 * window.innerWidth, 0.9 * window.innerHeight];
 enemy_pos  = [0.5 * window.innerWidth, 0.1 * window.innerHeight];
