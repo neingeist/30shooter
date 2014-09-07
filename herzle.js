@@ -13,10 +13,14 @@ function onKeyDown(e) {
   e = e || window.event;
 
   if (e.keyCode == '37') { // left
-    player_pos[0] -= 10;
+    if (player_pos[0] - 10 >= 0) {
+      player_pos[0] -= 10;
+    }
   }
   if (e.keyCode == '39') { // right
-    player_pos[0] += 10;
+    if (player_pos[0] + 10 <= window.innerWidth) {
+      player_pos[0] += 10;
+    }
   }
   if (e.keyCode == '32') { // space = fire
     if ((new Date()).getTime() - lastshoot > 300) {
